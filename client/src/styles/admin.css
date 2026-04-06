@@ -1,0 +1,260 @@
+/* ========================================
+   CMS Admin Panel Styles
+   ======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+.admin {
+  font-family: 'Inter', sans-serif;
+  background: #f8f8f8;
+  min-height: 100vh;
+  color: #222;
+}
+
+.admin-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* Header */
+.admin-header {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.admin-header h1 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.admin-header-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+.admin-preview-btn {
+  padding: 0.5rem 1.25rem;
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.admin-preview-btn:hover {
+  background: rgba(255,255,255,0.1);
+}
+.admin-save-btn {
+  padding: 0.5rem 1.5rem;
+  background: #c8e635;
+  color: #111;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.admin-save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Layout */
+.admin-body {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+/* Tabs */
+.admin-tabs {
+  flex: 0 0 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  position: sticky;
+  top: 80px;
+  align-self: flex-start;
+}
+.admin-tab {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.admin-tab:hover {
+  background: #eee;
+  color: #222;
+}
+.admin-tab.active {
+  background: #222;
+  color: #fff;
+}
+
+/* Content area */
+.admin-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.admin-section h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+.admin-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem;
+  color: #444;
+}
+.admin-section label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin: 1rem 0 0.35rem;
+}
+.admin-section input[type="text"],
+.admin-section input:not([type]),
+.admin-section textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.2s;
+  background: #fafafa;
+}
+.admin-section input:focus,
+.admin-section textarea:focus {
+  outline: none;
+  border-color: #c8e635;
+  background: #fff;
+}
+.admin-section input[type="file"] {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* Preview images */
+.admin-preview-img {
+  max-width: 300px;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+  border: 1px solid #eee;
+}
+.admin-preview-img-sm {
+  max-width: 120px;
+  max-height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin: 0.5rem 0;
+  border: 1px solid #eee;
+}
+
+/* Inline groups & cards */
+.admin-inline-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.admin-inline-group input {
+  flex: 1;
+}
+
+.admin-card {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Buttons */
+.admin-add-btn {
+  padding: 0.5rem 1.25rem;
+  background: #f0f0f0;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+.admin-add-btn:hover {
+  background: #e8e8e8;
+}
+
+.admin-remove-btn {
+  padding: 0.35rem 0.75rem;
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 6px;
+  color: #c00;
+  font-size: 0.8rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.admin-remove-btn:hover {
+  background: #fdd;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-body {
+    flex-direction: column;
+    padding: 1rem;
+  }
+  .admin-tabs {
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: static;
+    gap: 0.5rem;
+  }
+  .admin-tab {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+  .admin-header {
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: center;
+  }
+}
