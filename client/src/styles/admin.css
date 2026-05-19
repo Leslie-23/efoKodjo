@@ -2,7 +2,7 @@
    CMS Admin Panel — Street-Editorial Edge
    ======================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:ital,wght@0,400;0,600;0,700;0,800;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
   --a-bg: #111;
@@ -458,6 +458,66 @@
   color: var(--a-red);
 }
 
+/* ---- Live Preview Panel ---- */
+.admin--with-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
+.admin--with-preview .admin-header {
+  grid-column: 1 / -1;
+}
+.admin--with-preview .admin-body {
+  overflow-y: auto;
+  max-width: none;
+  padding: 1.5rem;
+}
+.admin-live-preview {
+  display: flex;
+  flex-direction: column;
+  border-left: 3px solid var(--a-accent);
+  background: var(--a-bg);
+  overflow: hidden;
+}
+.admin-live-preview-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1rem;
+  background: var(--a-surface);
+  border-bottom: 1px solid var(--a-border);
+  font-family: var(--a-font-display);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--a-text-dim);
+}
+.admin-live-preview-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--a-accent);
+  border-radius: 50%;
+  animation: previewPulse 1.5s ease-in-out infinite;
+}
+@keyframes previewPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+.admin-live-preview-frame {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: var(--a-bg);
+}
+.admin-preview-btn--active {
+  background: var(--a-accent);
+  color: #111;
+  border-color: var(--a-accent);
+}
+
 /* ---- Responsive ---- */
 @media (max-width: 768px) {
   .admin-body {
@@ -487,5 +547,13 @@
     flex-direction: column;
     gap: 0.75rem;
     text-align: center;
+  }
+  .admin--with-preview {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr 50vh;
+  }
+  .admin-live-preview {
+    border-left: none;
+    border-top: 3px solid var(--a-accent);
   }
 }

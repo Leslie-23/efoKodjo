@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { getContent, updateContent, uploadImage } from '../api'
 import '../styles/admin.css'
 
@@ -43,10 +43,30 @@ export default function Admin() {
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [activeTab, setActiveTab] = useState('hero')
+  const [showPreview, setShowPreview] = useState(false)
+  const previewRef = useRef(null)
+  const previewReady = useRef(false)
 
   useEffect(() => {
     if (authed) getContent().then(setData).catch(console.error)
   }, [authed])
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.data?.type === 'cms-preview-ready') previewReady.current = true
+    }
+    window.addEventListener('message', handler)
+    return () => window.removeEventListener('message', handler)
+  }, [])
+
+  const sendPreview = useCallback(() => {
+    if (!showPreview || !data || !previewRef.current) return
+    previewRef.current.contentWindow?.postMessage(
+      { type: 'cms-preview', payload: data }, '*'
+    )
+  }, [showPreview, data])
+
+  useEffect(() => { sendPreview() }, [sendPreview])
 
   if (!authed) return <AuthGate onAuth={() => setAuthed(true)} />
 
@@ -96,13 +116,16 @@ export default function Admin() {
   ]
 
   return (
-    <div className="admin">
+    <div className={`admin ${showPreview ? 'admin--with-preview' : ''}`}>
       <header className="admin-header">
         <h1>Efo Kodjo CMS</h1>
         <div className="admin-header-actions">
-          <a href="/" target="_blank" rel="noopener noreferrer" className="admin-preview-btn">
-            Preview Site
-          </a>
+          <button
+            className={`admin-preview-btn ${showPreview ? 'admin-preview-btn--active' : ''}`}
+            onClick={() => setShowPreview((v) => !v)}
+          >
+            {showPreview ? 'Hide Preview' : 'Live Preview'}
+          </button>
           <button onClick={save} disabled={saving} className="admin-save-btn">
             {saving ? 'Saving...' : saved ? 'Saved!' : 'Save All Changes'}
           </button>
@@ -156,6 +179,22 @@ export default function Admin() {
           )}
         </div>
       </div>
+
+      {showPreview && (
+        <div className="admin-live-preview">
+          <div className="admin-live-preview-bar">
+            <span>Live Preview</span>
+            <span className="admin-live-preview-dot" />
+          </div>
+          <iframe
+            ref={previewRef}
+            src="/admin/preview"
+            title="Live Preview"
+            className="admin-live-preview-frame"
+            onLoad={sendPreview}
+          />
+        </div>
+      )}
     </div>
   )
 }
