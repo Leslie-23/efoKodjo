@@ -266,7 +266,7 @@ function FeedEditor({ data, setData, onUpload }) {
       ...prev,
       contentFeed: {
         ...prev.contentFeed,
-        items: [...prev.contentFeed.items, { title: 'New Post', thumbnail: '', tag: '📢 New' }],
+        items: [...prev.contentFeed.items, { title: 'New Post', thumbnail: '', tag: '📢 New', url: '' }],
       },
     }))
   }
@@ -281,10 +281,20 @@ function FeedEditor({ data, setData, onUpload }) {
   return (
     <div className="admin-section">
       <h2>Content Feed</h2>
+      <label>Featured Video URL (TikTok)</label>
+      <input
+        placeholder="https://www.tiktok.com/@user/video/..."
+        value={data.featuredVideo || ''}
+        onChange={(e) =>
+          setData((prev) => ({ ...prev, contentFeed: { ...prev.contentFeed, featuredVideo: e.target.value } }))
+        }
+      />
+      <h3>Feed Items</h3>
       {data.items.map((item, i) => (
         <div key={i} className="admin-card">
           <input placeholder="Title" value={item.title} onChange={(e) => updateItem(i, 'title', e.target.value)} />
           <input placeholder="Tag (e.g. 🔥 Viral)" value={item.tag} onChange={(e) => updateItem(i, 'tag', e.target.value)} />
+          <input placeholder="Video URL (TikTok link)" value={item.url || ''} onChange={(e) => updateItem(i, 'url', e.target.value)} />
           {item.thumbnail && <img src={item.thumbnail} alt={item.title} className="admin-preview-img-sm" />}
           <input type="file" accept="image/*" onChange={(e) => onUpload(e, (url) => updateItem(i, 'thumbnail', url))} />
           <button className="admin-remove-btn" onClick={() => removeItem(i)}>Remove</button>

@@ -8,10 +8,6 @@ client/dist/
 .env
 server/.env
 
-# Uploaded files
-server/uploads/*
-!server/uploads/.gitkeep
-
 # OS files
 .DS_Store
 Thumbs.db

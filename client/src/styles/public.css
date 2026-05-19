@@ -780,8 +780,28 @@ body {
 }
 .feed-card:hover .feed-card-stripe { transform: scaleX(1); }
 
+.feed-card--link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.feed-tiktok-embed {
+  width: 100%;
+  aspect-ratio: 9/16;
+  max-height: 700px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+.feed-tiktok-embed iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
 .feed-feature {
-  max-width: 900px; margin: 3rem auto 0;
+  max-width: 500px; margin: 3rem auto 0;
   padding: 0 2rem; position: relative;
 }
 .feed-feature-bar {

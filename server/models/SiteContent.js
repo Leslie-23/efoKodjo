@@ -27,7 +27,7 @@ const siteContentSchema = new mongoose.Schema({
   hero: {
     name: { type: String, default: 'EFO KODJO' },
     subtitle: { type: String, default: 'From the Gari Bowl to Your Timeline.' },
-    badgeText: { type: String, default: '📢 Going Viral' },
+    badgeText: { type: String, default: 'Going Viral' },
     image: { type: String, default: '' },
   },
 

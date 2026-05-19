@@ -3,18 +3,10 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const SiteContent = require('../models/SiteContent');
-
-// Multer storage config
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, path.join(__dirname, '../uploads')),
-  filename: (req, file, cb) => {
-    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, unique + path.extname(file.originalname));
-  },
-});
+const Image = require('../models/Image');
 
 const upload = multer({
-  storage,
+  storage: multer.memoryStorage(),
   fileFilter: (req, file, cb) => {
     const allowed = /jpeg|jpg|png|gif|webp/;
     const ext = allowed.test(path.extname(file.originalname).toLowerCase());
@@ -22,7 +14,7 @@ const upload = multer({
     if (ext && mime) return cb(null, true);
     cb(new Error('Only image files are allowed'));
   },
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+  limits: { fileSize: 10 * 1024 * 1024 },
 });
 
 // Helper: get or create the single site content document
@@ -64,13 +56,34 @@ router.put('/', async (req, res) => {
   }
 });
 
-// POST upload image
-router.post('/upload', upload.single('image'), (req, res) => {
+// POST upload image -> MongoDB
+router.post('/upload', upload.single('image'), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'No file uploaded' });
   }
-  const imageUrl = `/uploads/${req.file.filename}`;
-  res.json({ url: imageUrl });
+  try {
+    const image = await Image.create({
+      data: req.file.buffer,
+      contentType: req.file.mimetype,
+      filename: req.file.originalname,
+    });
+    res.json({ url: `/api/content/images/${image._id}` });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET serve image from MongoDB
+router.get('/images/:id', async (req, res) => {
+  try {
+    const image = await Image.findById(req.params.id);
+    if (!image) return res.status(404).json({ error: 'Image not found' });
+    res.set('Content-Type', image.contentType);
+    res.set('Cache-Control', 'public, max-age=31536000, immutable');
+    res.send(image.data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 module.exports = router;
