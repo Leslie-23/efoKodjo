@@ -2,15 +2,53 @@ import { useEffect, useState } from 'react'
 import { getContent, updateContent, uploadImage } from '../api'
 import '../styles/admin.css'
 
+function AuthGate({ onAuth }) {
+  const [pw, setPw] = useState('')
+  const [error, setError] = useState(false)
+
+  const submit = (e) => {
+    e.preventDefault()
+    if (pw === 'efoKodjo') {
+      sessionStorage.setItem('cms-auth', '1')
+      onAuth()
+    } else {
+      setError(true)
+      setTimeout(() => setError(false), 1500)
+    }
+  }
+
+  return (
+    <div className="auth-overlay">
+      <form className="auth-modal" onSubmit={submit}>
+        <div className="auth-label">CMS Access</div>
+        <h2 className="auth-title">Enter Password</h2>
+        <input
+          type="password"
+          className={`auth-input ${error ? 'auth-input--error' : ''}`}
+          value={pw}
+          onChange={(e) => setPw(e.target.value)}
+          placeholder="Password"
+          autoFocus
+        />
+        <button type="submit" className="auth-submit">Unlock</button>
+        {error && <div className="auth-error">Wrong password</div>}
+      </form>
+    </div>
+  )
+}
+
 export default function Admin() {
+  const [authed, setAuthed] = useState(() => sessionStorage.getItem('cms-auth') === '1')
   const [data, setData] = useState(null)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [activeTab, setActiveTab] = useState('hero')
 
   useEffect(() => {
-    getContent().then(setData).catch(console.error)
-  }, [])
+    if (authed) getContent().then(setData).catch(console.error)
+  }, [authed])
+
+  if (!authed) return <AuthGate onAuth={() => setAuthed(true)} />
 
   const save = async () => {
     setSaving(true)
