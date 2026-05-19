@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const api = axios.create({ baseURL: '/api' })
+const api = axios.create({ baseURL: import.meta.env.VITE_API_URL || '/api' })
 
 export const getContent = () => api.get('/content').then((r) => r.data)
 export const updateContent = (data) => api.put('/content', data).then((r) => r.data)
